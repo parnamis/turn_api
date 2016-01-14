@@ -47,7 +47,7 @@ module.exports = {
 
 Explanation:
 
-hosts:  list of IP addresses of Cassandra hosts that this instances should communicate with.  In our default case, we list the local data center host first, and the other data center cassandra host second.
+hosts:  the IP address of the Cassandra host (in most cases, this is the localhost that's running the turn_api server)
 
 keyspace:  the Cassandra keyspace (database) name
 
@@ -86,7 +86,7 @@ sudo service turn_api stop
 
 ### Verification
 
-First, verify that the application is correctly generating a log file in
+First, verify that the application is correctly generating a log file in:
 
 ```
 /opt/logs/turn_api_app_log.txt
