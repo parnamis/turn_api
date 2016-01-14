@@ -89,10 +89,10 @@ sudo service turn_api stop
 First, verify that the application is correctly generating a log file in:
 
 ```
-/opt/logs/turn_api_app_log.txt
+cat /opt/logs/turn_api_app_log.txt
 ```
 
-Second, verify that the application webserver is accessible via web browser via the following URL:
+Second, verify that the application webserver is accessible via web browser through the following URL endpoint:
 
 ```
 http://YOUR_HOST_NAME:8080/getTURNServerArray
