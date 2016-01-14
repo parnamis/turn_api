@@ -1,0 +1,43 @@
+#!/bin/bash
+# chkconfig: 345 99 01
+# description: turn_api startup script
+#
+#       /etc/rc.d/init.d/<servicename>
+#
+
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+#chkconfig –level 2345 myscript on
+
+start() {
+        echo -n "Starting turn_api: "
+        cd /opt/turn_api
+        NODE_ENV='ENV' forever -a -l /opt/logs/logs.txt start /opt/turn_api/turn_api.js
+
+
+}
+stop() {
+        echo -n "Shutting down turn_api: "
+        cd /opt/turn_api
+        forever stopall
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    *)
+        echo "Usage: turnapi {start|stop|status|reload|restart[|probe]"
+        exit 1
+        ;;
+esac
+exit $?
