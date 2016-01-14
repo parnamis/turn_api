@@ -36,7 +36,7 @@ Sample configuration:
 module.exports = { 
 
   cassandra_config : {
-    hosts : ['96.119.5.69'],
+    hosts : ['YOUR_CASSANDRA_HOST_IP'],
     keyspace : 'turn_stats_db'
   },
   
@@ -61,54 +61,42 @@ The init script is located in the scripts directory of this repository.  It will
 The environment variable NODE_ENV needs to be set with an environment name that matches its corresponding config in config. For example, to load config_wbrn.js set NODE_ENV to "wbrn", to load config_qa2.js set NODE_ENV to "qa2".   
 
 
-
+First, install the init script as follows:
 
 ```
-#!/bin/bash
-# chkconfig: 345 99 01
-# description: turn_api startup script
-#
-#       /etc/rc.d/init.d/<servicename>
-#
-
-
-# Source function library.
-. /etc/rc.d/init.d/functions
-
-#chkconfig –level 2345 myscript on
-
-start() {
-        echo -n "Starting turn_api: "
-        cd /opt/turn_api
-        NODE_ENV='ENV' forever -a -l /opt/logs/logs.txt start /opt/turn_api/turn_api.js
-
-
-}
-stop() {
-        echo -n "Shutting down turn_api: "
-        cd /opt/turn_api
-        forever stopall
-}
-
-case "$1" in
-    start)
-        start
-        ;;
-    stop)
-        stop
-        ;;
-    restart)
-        stop
-        start
-        ;;
-    *)
-        echo "Usage: turnapi {start|stop|status|reload|restart[|probe]"
-        exit 1
-        ;;
-esac
-exit $?
+sudo cp /opt/turn_api/script/turn_api /etc/init.d/turn_api
+sudo chmod +x /etc/init.d/turn_api
+sudo chkconfig --add turn_api
+sudo chkconfig --level 35 turnapi on
 ```
 
+Then, edit the /etc/init.d/turn_api script on line 17 to set the NODE_ENV variable to match your environment. 
+
+
+To start the service:
+```
+sudo service turn_api start
+```
+
+To stop the service:
+```
+sudo service turn_api stop
+```
+
+
+### Verification
+
+First, verify that the application is correctly generating a log file in
+
+```
+/opt/logs/turn_api_app_log.txt
+```
+
+Second, verify that the application webserver is accessible via web browser via the following URL:
+
+```
+http://YOUR_HOST_NAME:8080/getTURNServerArray
+```
 
 
 

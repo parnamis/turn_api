@@ -14,7 +14,7 @@
 start() {
         echo -n "Starting turn_api: "
         cd /opt/turn_api
-        NODE_ENV='ENV' forever -a -l /opt/logs/logs.txt start /opt/turn_api/turn_api.js
+        NODE_ENV='ENV' forever -a -l /opt/logs/turn_api_app_log.txt start /opt/turn_api/turn_api.js
 
 
 }
