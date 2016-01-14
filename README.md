@@ -67,7 +67,7 @@ First, install the init script as follows:
 sudo cp /opt/turn_api/script/turn_api /etc/init.d/turn_api
 sudo chmod +x /etc/init.d/turn_api
 sudo chkconfig --add turn_api
-sudo chkconfig --level 35 turnapi on
+sudo chkconfig --level 35 turn_api on
 ```
 
 Then, edit the /etc/init.d/turn_api script on line 17 to set the NODE_ENV variable to match your environment. 
