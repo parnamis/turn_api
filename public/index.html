@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>TURN Server Statistics</title>
+    <!-- CSS files -->
+    <link href="stylesheets/pure-min.css" rel="stylesheet" type="text/css">
+    <link href="stylesheets/base.css" rel="stylesheet" type="text/css">
+    <link href="stylesheets/chart-modules.css" rel="stylesheet" type="text/css">
+
+    <!--[if lte IE 8]><script type="text/javascript" src="javascripts/excanvas.min.js"></script><![endif]-->
+    <script type="text/javascript" src="javascripts/jquery.min.js"></script>
+    <script type="text/javascript" src="javascripts/jquery.flot.min.js"></script>
+    <script type="text/javascript" src="javascripts/socket.io.js"></script>
+    <script type="text/javascript" src="javascripts/client-server.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            startClientServer();
+        });
+    </script>
+</head>
+<body>
+
+<div id="header">
+    <h1>TURN Server Statistics</h1>
+</div>
+
+<div id="content">
+    <div class="demo-container">
+        <div id="placeholder" class="demo-placeholder"></div>
+    </div>
+    <form>
+        Select CPU or Memory<br>
+        <input type="radio" name="colors" id="CPU" checked>CPU Utilization<br>
+        <input type="radio" name="colors" id="Memory">Memory Utilization<br>
+        <input type="radio" name="colors" id="Active Connections">Active Connections (Aprox. RTP sessions) 
+   </form>
+</div>
+
+  
+
+</body>
+</html>
