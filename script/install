@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Install steps for turn_api
+# Make sure to use your own git username
+
+sudo yum update
+sudo yum install traceroute curl wget git npm nodejs.x86_64
+sudo npm install -g forever
+cd /opt
+sudo mkdir /opt/logs
+sudo git clone https://USERNAME@github.com/CommsOps/turn_api.git
+cd /opt/turn_api
+sudo npm install
+sudo cp /opt/turn_api/script/turn_api /etc/init.d/turn_api
+sudo chmod +x /etc/init.d/turn_api
+sudo chkconfig --add turn_api
+sudo chkconfig --level 35 turn_api on
+sudo vim /etc/init.d/turn_api
+# replace ENV line 17 of /etc/init.d/turn_api with relevant environment string
+
+# Start server :
+# sudo service start turn_api
+
+# Check in a web browser:
+# http://YOUR_IP:8080/getTURNServerArray

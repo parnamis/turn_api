@@ -8,61 +8,61 @@ var invalidate_server_maxInterval = 60;
 var server_array = null;
 
 exports.getServer_array = function () {
-   return server_array;
+  return server_array;
 };
 
 var intervalTime = 5000;
 
 setInterval(function () {
-	client.execute('select * from turn_lb',
-		function (err, result) {
-      if (err) {
-        console.log('TURN API ERROR [event=%s, message=%s, errorString=%s ]', 'Query Cassandra', 'Cassandra query error', JSON.stringify(err) );
-      } else {
-        
-        server_array = result.rows;
+  client.execute('select * from turn_lb',
+    function (err, result) {
+    if (err) {
+      console.log('TURN API ERROR [event=%s, message=%s, errorString=%s ]', 'Query Cassandra', 'Cassandra query error', JSON.stringify(err));
+    } else {
 
-        console.log('TURN API INFO [ event=%s, message=%s, serverCount=%s ]', 'Query Cassandra', 'Successfully queried Cassandra', JSON.stringify(result.rows) );
+      server_array = result.rows;
 
-        for (var i = 0; i < result.rows.length; i++) {
+      console.log('TURN API INFO [ event=%s, message=%s, serverCount=%s ]', 'Query Cassandra', 'Successfully queried Cassandra', JSON.stringify(result.rows));
 
-          if (!((Math.round(new Date() / 1000) - result.rows[i].timestamp) < invalidate_server_maxInterval)) {
-            //console.log(result.rows[i].turn_server_ip+" is a Valid Server");
-            //console.log("results "+result.rows[i].cpu_percentage,  result.rows[i].turn_server_ip,result.rows[i].active_connections);
+      for (var i = 0; i < result.rows.length; i++) {
 
-            //console.log("\n Not getting Reports from " + result.rows[i].turn_server_ip);
-            
-            var ts = new Date(result.rows[i].timestamp).toISOString();
-            var ip = JSON.stringify(result.rows[i].turn_server_ip);
-            
-            result.rows.splice(i,1);
-      
-            console.log('TURN API ERROR [ event=%s, message=%s, server=%s, lastActive=%s, serverCount=%d ]', 'Cassandra data processing', 'No response from TURN server - removing from available server list', ip, ts, result.rows.length );
-            
-          }
-          
+        if (!((Math.round(new Date() / 1000) - result.rows[i].timestamp) < invalidate_server_maxInterval)) {
+          //console.log(result.rows[i].turn_server_ip+" is a Valid Server");
+          //console.log("results "+result.rows[i].cpu_percentage,  result.rows[i].turn_server_ip,result.rows[i].active_connections);
+
+          //console.log("\n Not getting Reports from " + result.rows[i].turn_server_ip);
+
+          var ts = new Date(result.rows[i].timestamp).toISOString();
+          var ip = JSON.stringify(result.rows[i].turn_server_ip);
+
+          result.rows.splice(i, 1);
+
+          console.log('TURN API ERROR [ event=%s, message=%s, server=%s, lastActive=%s, serverCount=%d ]', 'Cassandra data processing', 'No response from TURN server - removing from available server list', ip, ts, result.rows.length);
+
         }
-        
-        // Sort server array by number of connections
-        sortServerArray(result.rows);
-        
-        // Trim results to show only N best servers
-        result.rows.splice(num_servers_to_return, result.rows.length);
-        
+
       }
-	});
+
+      // Sort server array by number of connections
+      sortServerArray(result.rows);
+
+      // Trim results to show only N best servers
+      result.rows.splice(num_servers_to_return, result.rows.length);
+
+    }
+  });
 }, intervalTime);
 
 function sortServerArray(result) {
   result.sort(compare);
 }
 
-function compare(a,b) {
-  if( a.active_connections < b.active_connections ) {
+function compare(a, b) {
+  if (a.active_connections < b.active_connections) {
     return -1;
-  } else if (a.active_connections > b.active_connections ) {
+  } else if (a.active_connections > b.active_connections) {
     return 1;
-  } else { 
+  } else {
     return 1;
   }
 }
