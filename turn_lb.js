@@ -32,7 +32,7 @@ setInterval(function () {
 
           //console.log("\n Not getting Reports from " + result.rows[i].turn_server_ip);
 
-          var ts = new Date(result.rows[i].timestamp).toISOString();
+          var ts = new Date(result.rows[i].timestamp*1000).toISOString();
           var ip = JSON.stringify(result.rows[i].turn_server_ip);
 
           result.rows.splice(i, 1);
