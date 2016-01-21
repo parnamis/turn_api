@@ -111,6 +111,15 @@ First, open Cassandra the command line tool.
 /usr/src/apache-cassandra-2.0.7/bin/cqlsh
 ```
 
+OR
+
+```
+/usr/src/apache-cassandra-2.0.7/bin/cassandra-cli
+```
+
+(certain commands work in one tool but not the other..)
+
+
 Delete old keyspace
 ```
 drop keyspace turn_stats_db;
@@ -136,7 +145,7 @@ Table:
   cpu_percentage text,
   mem_usage text,
   pid text,
-  "timestamp" int,
+  timestamp int,
   turn_server_ip text,
   PRIMARY KEY (server_id)
 ) WITH
