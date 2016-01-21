@@ -35,23 +35,31 @@ setInterval(function () {
           var ts = new Date(result.rows[i].timestamp*1000).toISOString();
           var ip = JSON.stringify(result.rows[i].turn_server_ip);
 
-          result.rows.splice(i, 1);
+          result.rows[i].invalid = true;
 
-          console.log('TURN API ERROR [ event=%s, message=%s, server=%s, lastActive=%s, serverCount=%d ]', 'Cassandra data processing', 'No response from TURN server - removing from available server list', ip, ts, result.rows.length);
+          console.log('TURN API ERROR [ event=%s, message=%s, server=%s, lastActive=%s ]', 'Cassandra data processing', 'No response from TURN server - removing from available server list', ip, ts);
 
         }
 
       }
 
+      server_array = [];
+      for(var i=0; i<result.rows.length; ++i) {
+        if(!result.rows[i].invalid) {
+          server_array.push(result.rows[i]);
+        }
+      }
+
       // Sort server array by number of connections
-      sortServerArray(result.rows);
+      sortServerArray(server_array);
 
       // Trim results to show only N best servers
-      result.rows.splice(num_servers_to_return, result.rows.length);
+      server_array.splice(num_servers_to_return, server_array.length);
 
     }
   });
 }, intervalTime);
+
 
 function sortServerArray(result) {
   result.sort(compare);
