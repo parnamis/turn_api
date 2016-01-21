@@ -124,7 +124,7 @@ Copy and paste the following scripts into the Cassandra cli:
 ```
 create keyspace turn_stats_db
   with placement_strategy = 'NetworkTopologyStrategy'
-  and strategy_options = {replication_factor : 1}
+  and strategy_options = {'datacenter1' : 2, 'datacenter2' : 2}
   and durable_writes = true;
 ``` 
 
