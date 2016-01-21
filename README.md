@@ -103,7 +103,23 @@ http://YOUR_HOST_NAME:8080/getTURNServerArray
 
 ### Cassandra keyspace & table definition
 
-Keyspace: 
+Deleting old keyspace.
+
+First, open Cassandra the command line tool.
+
+```
+/usr/src/apache-cassandra-2.0.7/bin/cqlsh
+```
+
+Delete old keyspace
+```
+drop keyspace turn_stats_db;
+```
+
+
+Creating keyspace & table: 
+
+Copy and paste the following scripts into the Cassandra cli:
 
 ```
 create keyspace turn_stats_db
@@ -139,6 +155,9 @@ Table:
   compaction={'class': 'SizeTieredCompactionStrategy'} AND
   compression={'sstable_compression': 'LZ4Compressor'};
 ```
+
+
+
 
 
 
